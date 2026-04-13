@@ -109,8 +109,11 @@ Add your screenshots inside a `screenshots` folder.
 
 ```
 hospital_project/
-│── appointments/
+│
+├── appointments/
 │   ├── migrations/
+│   ├── __pycache__/
+│   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── forms.py
@@ -119,33 +122,37 @@ hospital_project/
 │   ├── urls.py
 │   ├── views.py
 │
-│── hospital_project/
+├── hospital_project/
+│   ├── __pycache__/
 │   ├── __init__.py
 │   ├── asgi.py
 │   ├── settings.py
 │   ├── urls.py
 │   ├── wsgi.py
 │
-│── profile_pics/
+├── profile_pics/
 │
-│── static/
+├── static/
+│   ├── bootstrap/
 │   ├── css/
-│   │   └── style.css
+│   ├── fontawesome/
 │
-│── templates/
+├── templates/
 │   ├── base.html
+│   ├── book_appointment.html
+│   ├── doctor_dashboard.html
+│   ├── edit_profile.html
 │   ├── home.html
 │   ├── login.html
-│   ├── register.html
 │   ├── patient_dashboard.html
-│   ├── doctor_dashboard.html
-│   ├── book_appointment.html
-│   ├── edit_profile.html
+│   ├── register.html
 │
-│── db.sqlite3
-│── manage.py
+├── db.sqlite3
+├── manage.py
+├── README.md
+├── requirements.txt
+├── SHELL-COMMANDS-SAMPLE.md
 ```
-
 ---
 
 ## 🔐 Security & Access Control
@@ -179,6 +186,7 @@ hospital_project/
 ## 👨‍💻 Authors
 
 - Hanson Vaz
+- Havyas U
 - Anush
 
 ---
