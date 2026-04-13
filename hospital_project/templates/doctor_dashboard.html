@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}Doctor Dashboard — MediCare{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Welcome -->
+    <div class="dashboard-welcome glass-card mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="dash-avatar doctor-avatar-dash"><i class="fas fa-user-md"></i></div>
+            <div>
+                <h4 class="mb-0 text-light">Dr. {{ user.get_full_name }} 🩺</h4>
+                <p class="text-light mb-0">{{ doctor.specialization }} &nbsp;|&nbsp;
+                    <i class="fas fa-clock me-1"></i>{{ doctor.available_from }} - {{ doctor.available_to }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 col-6">
+            <div class="stat-card glass-card text-center">
+                <i class="fas fa-calendar-alt stat-icon text-primary"></i>
+                <h3 class="stat-number">{{ total }}</h3>
+                <p class="stat-label">Total</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card glass-card text-center">
+                <i class="fas fa-hourglass-half stat-icon text-warning"></i>
+                <h3 class="stat-number">{{ pending }}</h3>
+                <p class="stat-label">Pending</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card glass-card text-center">
+                <i class="fas fa-check-circle stat-icon text-success"></i>
+                <h3 class="stat-number">{{ confirmed }}</h3>
+                <p class="stat-label">Confirmed</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card glass-card text-center">
+                <i class="fas fa-clipboard-check stat-icon text-info"></i>
+                <h3 class="stat-number">{{ completed }}</h3>
+                <p class="stat-label">Completed</p>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="fw-bold mb-4"><i class="fas fa-list-alt me-2 text-primary"></i>Patient Appointments</h5>
+
+    <!-- Appointments Table -->
+    <div class="glass-card p-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-custom mb-0">
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appt in appointments %}
+                    <tr>
+                        <td><strong>{{ appt.patient.get_full_name|default:appt.patient.username }}</strong></td>
+                        <td>{{ appt.appointment_date }}</td>
+                        <td>{{ appt.appointment_time }}</td>
+                        <td>{{ appt.reason|truncatewords:8 }}</td>
+                        <td>
+                            <span class="badge status-{{ appt.status }}">{{ appt.status|capfirst }}</span>
+                        </td>
+                        <td>
+                            {% if appt.status == 'pending' %}
+                            <a href="{% url 'update_appointment' appt.id 'confirmed' %}"
+                                class="btn btn-sm btn-success me-1">
+                                <i class="fas fa-check"></i> Confirm
+                            </a>
+                            <a href="{% url 'update_appointment' appt.id 'cancelled' %}"
+                                class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                            {% elif appt.status == 'confirmed' %}
+                            <a href="{% url 'update_appointment' appt.id 'completed' %}" class="btn btn-sm btn-info">
+                                <i class="fas fa-clipboard-check"></i> Complete
+                            </a>
+                            {% else %}
+                            <span class="text-muted small">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <i class="fas fa-calendar-times fa-2x mb-2 d-block"></i>
+                            No appointments yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

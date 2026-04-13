@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}Patient Dashboard — MediCare{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Welcome -->
+    <div class="dashboard-welcome glass-card mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="dash-avatar"><i class="fas fa-user"></i></div>
+            <div>
+                <h4 class="mb-0">Welcome, {{ user.first_name|default:user.username }}! 👋</h4>
+                <p class="text-light mb-0">Manage your appointments below</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3 col-6">
+            <div class="stat-card glass-card text-center">
+                <i class="fas fa-calendar-alt stat-icon text-primary"></i>
+                <h3 class="stat-number">{{ total }}</h3>
+                <p class="stat-label">Total</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card glass-card text-center">
+                <i class="fas fa-hourglass-half stat-icon text-warning"></i>
+                <h3 class="stat-number">{{ pending }}</h3>
+                <p class="stat-label">Pending</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card glass-card text-center">
+                <i class="fas fa-check-circle stat-icon text-success"></i>
+                <h3 class="stat-number">{{ confirmed }}</h3>
+                <p class="stat-label">Confirmed</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card glass-card text-center">
+                <i class="fas fa-times-circle stat-icon text-danger"></i>
+                <h3 class="stat-number">{{ cancelled }}</h3>
+                <p class="stat-label">Cancelled</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book New -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold mb-0"><i class="fas fa-calendar-check me-2 text-primary"></i>My Appointments</h5>
+        <a href="{% url 'home' %}" class="btn btn-primary-custom btn-sm px-4">
+            <i class="fas fa-plus me-1"></i>Book New
+        </a>
+    </div>
+
+    <!-- Appointments Table -->
+    <div class="glass-card p-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-custom mb-0">
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Specialization</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appt in appointments %}
+                    <tr>
+                        <td><strong>Dr. {{ appt.doctor.user.get_full_name }}</strong></td>
+                        <td>{{ appt.doctor.specialization }}</td>
+                        <td>{{ appt.appointment_date }}</td>
+                        <td>{{ appt.appointment_time }}</td>
+                        <td>{{ appt.reason|truncatewords:8 }}</td>
+                        <td>
+                            <span class="badge status-{{ appt.status }}">{{ appt.status|capfirst }}</span>
+                        </td>
+                        <td>
+                            {% if appt.status == 'pending' %}
+                            <a href="{% url 'cancel_appointment' appt.id %}" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Cancel this appointment?')">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                            {% else %}
+                            <span class="text-muted small">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            <i class="fas fa-calendar-times fa-2x mb-2 d-block"></i>
+                            No appointments yet. <a href="{% url 'home' %}">Book one now!</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

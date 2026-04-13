@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile — MediCare{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Header -->
+            <div class="glass-card mb-4 text-center">
+                <div class="profile-avatar mx-auto mb-3">
+                    {% if is_doctor %}
+                    <i class="fas fa-user-md"></i>
+                    {% else %}
+                    <i class="fas fa-user"></i>
+                    {% endif %}
+                </div>
+                <h4 class="fw-700 mb-1 text-white">{{ user.first_name }} {{ user.last_name }}</h4>
+                <p class="text-light mb-0">
+                    <b>Username:</b> {{ user.username }} &nbsp;|&nbsp;
+                    <span class="badge badge-spec">
+                        {% if is_doctor %}Doctor{% else %}Patient{% endif %}
+                    </span>
+                </p>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <!-- Personal Info -->
+                <div class="glass-card mb-4">
+                    <h5 class="section-card-title mb-4">
+                        <i class="fas fa-id-card me-2 text-primary"></i>Personal Information
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-500">First Name</label>
+                            {{ user_form.first_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-500">Last Name</label>
+                            {{ user_form.last_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-500">Email Address</label>
+                            {{ user_form.email }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-500">Phone Number</label>
+                            {{ user_form.phone }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-500">Address</label>
+                            {{ user_form.address }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Extra Info -->
+                {% if is_doctor and doctor_form %}
+                <div class="glass-card mb-4">
+                    <h5 class="section-card-title mb-4">
+                        <i class="fas fa-stethoscope me-2 text-success"></i>Doctor Information
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-500">Specialization</label>
+                            {{ doctor_form.specialization }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-500">Experience (Years)</label>
+                            {{ doctor_form.experience_years }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-500">Consultation Fee (₹)</label>
+                            {{ doctor_form.consultation_fee }}
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-500">Available From</label>
+                            {{ doctor_form.available_from }}
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-500">Available To</label>
+                            {{ doctor_form.available_to }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-500">Bio</label>
+                            {{ doctor_form.bio }}
+                        </div>
+                        <div class="col-12">
+                            <div class="availability-toggle glass-card p-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    {{ doctor_form.is_available }}
+                                    <label class="form-check-label fw-500 text-white">
+                                        <i class="fas fa-circle text-success me-2" style="font-size:0.6rem"></i>
+                                        Currently Available for Appointments
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Buttons -->
+                <div class="d-flex gap-3">
+                    <a href="{% if is_doctor %}{% url 'doctor_dashboard' %}{% else %}{% url 'patient_dashboard' %}{% endif %}"
+                        class="btn btn-outline-secondary w-50 btn-lg">
+                        <i class="fas fa-arrow-left me-2"></i>Back
+                    </a>
+                    <button type="submit" class="btn btn-primary-custom w-50 btn-lg">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

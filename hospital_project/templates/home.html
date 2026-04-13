@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}MediCare — Home{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="hero-title">Your Health, <span class="text-gradient">Our Priority</span></h1>
+                <p class="hero-subtitle">Book appointments with top doctors instantly. Quality healthcare at your
+                    fingertips.</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{% url 'register' %}" class="btn btn-primary-custom btn-lg px-5">
+                        <i class="fas fa-calendar-plus me-2"></i>Book Appointment
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-5">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center d-none d-lg-block">
+                <div class="hero-icon-wrap">
+                    <i class="fas fa-user-md hero-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="stats-section py-5">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-card glass-card">
+                    <i class="fas fa-user-md stat-icon text-primary"></i>
+                    <h3 class="stat-number">50+</h3>
+                    <p class="stat-label">Expert Doctors</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card glass-card">
+                    <i class="fas fa-users stat-icon text-success"></i>
+                    <h3 class="stat-number">1000+</h3>
+                    <p class="stat-label">Happy Patients</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card glass-card">
+                    <i class="fas fa-stethoscope stat-icon text-warning"></i>
+                    <h3 class="stat-number">20+</h3>
+                    <p class="stat-label">Specializations</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card glass-card">
+                    <i class="fas fa-calendar-check stat-icon text-danger"></i>
+                    <h3 class="stat-number">5000+</h3>
+                    <p class="stat-label">Appointments Done</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DOCTORS SECTION -->
+<section class="doctors-section py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">Our <span class="text-gradient">Top Doctors</span></h2>
+            <p class="section-subtitle">Meet our experienced and dedicated medical professionals</p>
+        </div>
+        <div class="row g-4">
+            {% for doctor in doctors %}
+            <div class="col-lg-4 col-md-6">
+                <div class="doctor-card glass-card h-100">
+                    <div class="doctor-avatar">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h5 class="doctor-name">Dr. {{ doctor.user.get_full_name }}</h5>
+                    <span class="badge badge-spec mb-2">{{ doctor.specialization }}</span>
+
+
+                    <p class="doctor-info text-light">
+                        <i class="fas fa-briefcase me-2 text-primary"></i>
+                        {{ doctor.experience_years}} Years Experience
+                    </p>
+
+
+                    <p class="doctor-info text-light">
+                        <i class="fas fa-rupee-sign me-2"></i>
+                        ₹{{ doctor.consultation_fee|floatformat:0 }} Consultation
+                    </p>
+
+                    <p class="doctor-info"><i class="fas fa-clock me-2 text-warning"></i>{{ doctor.available_from }} -
+                        {{ doctor.available_to }}</p>
+
+                    <!-- {% if user.is_authenticated %}
+                    <a href="{% url 'book_appointment' doctor.id %}" class="btn btn-primary-custom w-100 mt-3">
+                        <i class="fas fa-calendar-plus me-2"></i>Book Now
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary w-100 mt-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login to Book
+                    </a>
+                    {% endif %} -->
+
+                    {% if user.is_authenticated %}
+
+                    {% if user.profile.role == 'doctor' %}
+                    <p class="text-warning mt-3 text-center">
+                        Doctors cannot book appointments
+                    </p>
+                    {% else %}
+                    <a href="{% url 'book_appointment' doctor.id %}" class="btn btn-primary-custom w-100 mt-3">
+                        <i class="fas fa-calendar-plus me-2"></i>Book Now
+                    </a>
+                    {% endif %}
+
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary w-100 mt-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login to Book
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <div class="glass-card p-5">
+                    <i class="fas fa-user-md fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No doctors available at the moment.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
