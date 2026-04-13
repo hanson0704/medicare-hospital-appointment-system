@@ -76,6 +76,7 @@ pip install -r requirements.txt
 ### 4. Apply Migrations
 
 ```bash
+cd hospital_project
 python manage.py makemigrations
 python manage.py migrate
 ```
@@ -178,7 +179,7 @@ hospital_project/
 ## 👨‍💻 Authors
 
 - Hanson Vaz
-- Anush 
+- Anush
 
 ---
 
