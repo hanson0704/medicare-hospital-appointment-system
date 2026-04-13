@@ -16,17 +16,17 @@
         <!-- Doctor Info -->
         <div class="doctor-info-box glass-card mb-4">
             <div class="row text-center g-3">
-                <div class="col-4">
-                    <i class="fas fa-briefcase text-primary"></i>
-                    <p class="mb-0 small fw-600">{{ doctor.experience_years }} Yrs Exp</p>
+                <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                    <i class="fas fa-briefcase text-primary mb-1"></i>
+                    <p class="mb-0 small fw-600 text-light">{{ doctor.experience_years }} Yrs Exp</p>
                 </div>
-                <div class="col-4">
-                    <i class="fas fa-rupee-sign text-success"></i>
-                    <p class="mb-0 small fw-600">₹{{ doctor.consultation_fee }}</p>
+                <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                    <i class="fas fa-rupee-sign text-success mb-1"></i>
+                    <p class="mb-0 small fw-600 text-light">₹{{ doctor.consultation_fee }}</p>
                 </div>
-                <div class="col-4">
-                    <i class="fas fa-clock text-warning"></i>
-                    <p class="mb-0 small fw-600">
+                <div class="col-4 d-flex flex-column align-items-center justify-content-center">
+                    <i class="fas fa-clock text-warning mb-1"></i>
+                    <p class="mb-0 small fw-600 text-light">
                         {{ doctor.available_from|time:"H:i" }} - {{ doctor.available_to|time:"H:i" }}</p>
                 </div>
             </div>

@@ -325,6 +325,22 @@ body {
     padding: 2rem 1.5rem;
 }
 
+/* Makes the <a> wrapper invisible — card looks the same */
+.doctor-card-link {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+
+/* Subtle hover lift to hint it's clickable */
+.doctor-card-link:hover .doctor-card {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(26, 108, 240, 0.25);
+    border-color: rgba(26, 108, 240, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
 .doctor-avatar {
     width: 80px;
     height: 80px;
